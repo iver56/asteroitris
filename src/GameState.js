@@ -64,6 +64,9 @@ GameState.prototype.snapBricks = function() {
   const playerBricks = this.player.absoluteBrickCenterPositions;
 
   for (let brick of this.bricks) {
+    if (brick.state !== 'floating') {
+      continue;
+    }
     let shortestDistance = 999999;
     let shortestDistanceBrick = {x: 0, y: 0};
     const brickBricks = brick.getBrickCenterPositions();
@@ -78,6 +81,7 @@ GameState.prototype.snapBricks = function() {
     }
 
     if (shortestDistance <= 1.5 * BRICK_SIZE) {
+      brick.state = 'snapping';
       console.log('close!')
       ctx.save();
       ctx.scale(GU, GU);
