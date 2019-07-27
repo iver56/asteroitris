@@ -37,10 +37,10 @@ Player.prototype.update = function() {
 
 Player.prototype.render = function() {
   ctx.save();
-  ctx.translate(8 * GU + this.x, 4.5 * GU + this.y);
+  ctx.translate(CENTER.x * GU + this.x, CENTER.y * GU + this.y);
   ctx.rotate(this.rotation);
 
-  ctx.fillStyle = 'red';
+  ctx.fillStyle = '#FF56B0';
   ctx.fillRect(-GU / 2, -GU / 2, GU, GU);
 
   ctx.restore();
