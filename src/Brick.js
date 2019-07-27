@@ -7,7 +7,7 @@ const bricks = [
   [{x: 1, y: 0}, {x: 1, y: 1}, {x: 0, y: 1}, {x: 0, y: 2}],
   [{x: 0, y: 0}, {x: 0, y: 1}, {x: 1, y: 1}, {x: 1, y: 2}],
 ];
-const BRICK_SIZE = 0.25; // as factor of GU;
+
 
 function Brick(brickPositions, x, y, dx, dy, rotation) {
   this.brickPositions = brickPositions;
