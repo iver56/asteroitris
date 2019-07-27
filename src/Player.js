@@ -4,7 +4,7 @@ function Player(gameState) {
   this.y = 0;  // in game units
   this.rotation = 0;  // in radians
   this.rotationSpeed = 0.035;  // in radians per frame
-  this.movementSpeed = 2;  // in game units per frame
+  this.movementSpeed = 2.5;  // in game units per frame
   this.brickPositions = [
     {x: 0, y: 0}, {x: 0, y: 1}, {x: 0, y: 2}, {x: 0, y: 3},
     {x: 1, y: 0}, {x: 1, y: 1}, {x: 1, y: 2}, {x: 1, y: 3},
@@ -66,4 +66,16 @@ Player.prototype.render = function() {
   }
 
   ctx.restore();
+};
+
+Player.prototype.getBrickCenterPositions = function() {
+  let positions = [];
+  for (let brickPosition of this.brickPositions) {
+    const position = {
+      x: this.x + (brickPosition.x + 0.5) * BRICK_SIZE * Math.cos(this.rotation),
+      y: this.y + (brickPosition.y + 0.5) * BRICK_SIZE * Math.sin(this.rotation)
+    };
+    positions.push(position);
+  }
+  return positions
 };

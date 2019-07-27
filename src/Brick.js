@@ -15,7 +15,7 @@ function Brick(brickPositions, x, y, dx, dy, rotation) {
   this.y = y;  // in game units
   this.dx = dx;
   this.dy = dy;
-  this.speedFactor = 0.04;
+  this.speedFactor = 0.03;
   this.rotation = rotation;  // in radians
 }
 
@@ -48,6 +48,18 @@ Brick.prototype.render = function() {
     );
   }
   ctx.restore();
+};
+
+Brick.prototype.getBrickCenterPositions = function() {
+  let positions = [];
+  for (let brickPosition of this.brickPositions) {
+    const position = {
+      x: this.x + (brickPosition.x + 0.5) * BRICK_SIZE * Math.cos(this.rotation),
+      y: this.y + (brickPosition.y + 0.5) * BRICK_SIZE * Math.sin(this.rotation)
+    };
+    positions.push(position);
+  }
+  return positions
 };
 
 function spawnBrick() {

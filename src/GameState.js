@@ -22,7 +22,9 @@ GameState.prototype.resume = function() {
     }, {x: 15, y: 0, w: 1, h: 1}]
   ];
   this.player = new Player(this);
-  this.brick = spawnBrick();
+  this.bricks = [];
+  this.initialT = +(new Date()) / 1000;
+  this.timeOfNewBrickSpawn = this.initialT + 0.5;
 };
 
 GameState.prototype.render = function(ctx) {
@@ -31,14 +33,31 @@ GameState.prototype.render = function(ctx) {
   ctx.restore();
 
   this.player.render();
-  this.brick.render();
+  for (let brick of this.bricks) {
+    brick.render();
+  }
 
   mm.audioButton.render();
 };
 
 GameState.prototype.update = function() {
+  this.t = +(new Date()) / 1000;
+
+  this.spawnBricks();
+
   this.player.update();
-  this.brick.update();
+  for (let brick of this.bricks) {
+    brick.update();
+  }
+};
+
+GameState.prototype.spawnBricks = function() {
+  if (this.t >= this.timeOfNewBrickSpawn) {
+    let brick = spawnBrick();
+    this.bricks.push(brick);
+
+    this.timeOfNewBrickSpawn = this.t + 3.5;
+  }
 };
 
 GameState.prototype.playSound = function(soundName) {
