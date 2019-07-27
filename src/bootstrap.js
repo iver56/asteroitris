@@ -14,6 +14,10 @@ MOUSE = {x: 0, y: 0, left: false, right: false};
 
 missedGFXFrames = 0;
 
+Number.prototype.mod = function(n) {
+  return ((this%n)+n)%n;
+};
+
 /* smoothstep interpolates between a and b, at time t from 0 to 1 */
 function smoothstep(a, b, t) {
   var v = t * t * (3 - 2 * t);
@@ -61,7 +65,7 @@ function loop() {
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "black";
-    ctx.fillText("Loading " + loaded, 8 * GU, 4.5 * GU);
+    ctx.fillText("Loading " + loaded, CENTER.x * GU, CENTER.y * GU);
     t = old_time = performance.now();
     return;
   }

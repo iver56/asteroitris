@@ -14,31 +14,27 @@ GameState.prototype.pause = function() {
 };
 
 GameState.prototype.resume = function() {
-  var that = this;
   this.elements = [
     [function() {
       mm.audioButton.toggleActivated();
     }, {x: 15, y: 0, w: 1, h: 1}]
   ];
-  this.player = new Player();
+  this.player = new Player(this);
 };
 
 GameState.prototype.render = function(ctx) {
   ctx.save();
-  ctx.translate(8 * GU, 4.5 * GU);
-
-  if (KEYS[9]) { //TAB
-    ctx.fillStyle = 'red';
-    ctx.fillRect(-GU / 2, -GU / 2, GU, GU)
-  }
+  ctx.translate(CENTER.x * GU, CENTER.y * GU);
 
   ctx.restore();
+
+  this.player.render();
 
   mm.audioButton.render();
 };
 
 GameState.prototype.update = function() {
-  var that = this;
+  this.player.update();
 };
 
 GameState.prototype.playSound = function(soundName) {
