@@ -1,4 +1,4 @@
-const BRICK_SIZE = 0.25; // as factor of GU;
+const BRICK_SIZE = 0.37; // as factor of GU;
 
 function GameState() {
 }
