@@ -62,6 +62,12 @@ GameState.prototype.spawnBricks = function() {
 
 GameState.prototype.snapBricks = function() {
   const playerBricks = this.player.absoluteBrickCenterPositions;
+  const playerAngles = [
+    this.player.rotation,
+    this.player.rotation + Math.PI / 2,
+    this.player.rotation + Math.PI,
+    this.player.rotation + 1.5 * Math.PI
+  ];
 
   for (let brick of this.bricks) {
     if (brick.state === 'floating') {
@@ -80,7 +86,7 @@ GameState.prototype.snapBricks = function() {
 
       if (shortestDistance <= 1.5 * BRICK_SIZE) {
         brick.state = 'snapping';
-        console.log('close!')
+        console.log('close!');
         ctx.save();
         ctx.scale(GU, GU);
         ctx.translate(CENTER.x, CENTER.y);
@@ -91,7 +97,16 @@ GameState.prototype.snapBricks = function() {
       }
     }
     if (brick.state === 'snapping') {
-
+      let minAngleDifference = 99999;
+      let bestAngle = null;
+      for (let candidateAngle of playerAngles) {
+        let angleDiff = calculateAngleDifference(brick.rotation, candidateAngle);
+        if (angleDiff < minAngleDifference) {
+          minAngleDifference = angleDiff;
+          bestAngle = candidateAngle;
+        }
+      }
+      brick.rotation = bestAngle;
     }
   }
 };
