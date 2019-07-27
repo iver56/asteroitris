@@ -31,8 +31,16 @@ Brick.prototype.render = function() {
   ctx.rotate(this.rotation);
 
   ctx.fillStyle = '#9BC4EF';
+  ctx.strokeStyle = '#7A7A7A';
+  ctx.lineWidth = 0.0003 * GU;
   for (let brickPosition of this.brickPositions) {
     ctx.fillRect(
+      brickPosition.x * BRICK_SIZE - BRICK_SIZE / 2,
+      brickPosition.y * BRICK_SIZE - BRICK_SIZE / 2,
+      BRICK_SIZE,
+      BRICK_SIZE
+    );
+    ctx.strokeRect(
       brickPosition.x * BRICK_SIZE - BRICK_SIZE / 2,
       brickPosition.y * BRICK_SIZE - BRICK_SIZE / 2,
       BRICK_SIZE,
@@ -49,8 +57,8 @@ function spawnBrick() {
   const reverseAngle = angle + Math.PI;
   const dx = Math.cos(reverseAngle);
   const dy = Math.sin(reverseAngle);
-  const x = (16 + BRICK_SIZE)* Math.cos(angle);
-  const y = (9 + BRICK_SIZE) * Math.sin(angle);
+  const x = (8 + BRICK_SIZE) * Math.cos(angle);
+  const y = (8 + BRICK_SIZE) * Math.sin(angle);
   const rotationIndex = (Math.random() * 4) | 0;
   const rotation = (angle + rotationIndex * Math.PI / 2) % (Math.PI * 2);
   return new Brick(brick, x, y, dx, dy, rotation);
