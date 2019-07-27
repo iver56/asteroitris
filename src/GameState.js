@@ -64,32 +64,34 @@ GameState.prototype.snapBricks = function() {
   const playerBricks = this.player.absoluteBrickCenterPositions;
 
   for (let brick of this.bricks) {
-    if (brick.state !== 'floating') {
-      continue;
-    }
-    let shortestDistance = 999999;
-    let shortestDistanceBrick = {x: 0, y: 0};
-    const brickBricks = brick.getBrickCenterPositions();
-    for (let brickBrick of brickBricks) {
-      for (let playerBrick of playerBricks) {
-        let distance = euclideanDistance(brickBrick, playerBrick);
-        if (distance < shortestDistance) {
-          shortestDistance = distance;
-          shortestDistanceBrick = brickBrick;
+    if (brick.state === 'floating') {
+      let shortestDistance = 999999;
+      let shortestDistanceBrick = {x: 0, y: 0};
+      const brickBricks = brick.getBrickCenterPositions();
+      for (let brickBrick of brickBricks) {
+        for (let playerBrick of playerBricks) {
+          let distance = euclideanDistance(brickBrick, playerBrick);
+          if (distance < shortestDistance) {
+            shortestDistance = distance;
+            shortestDistanceBrick = brickBrick;
+          }
         }
       }
+
+      if (shortestDistance <= 1.5 * BRICK_SIZE) {
+        brick.state = 'snapping';
+        console.log('close!')
+        ctx.save();
+        ctx.scale(GU, GU);
+        ctx.translate(CENTER.x, CENTER.y);
+        ctx.fillStyle = 'pink';
+        ctx.fillRect(shortestDistanceBrick.x, shortestDistanceBrick.y, 0.05, 0.05)
+
+        ctx.restore();
+      }
     }
+    if (brick.state === 'snapping') {
 
-    if (shortestDistance <= 1.5 * BRICK_SIZE) {
-      brick.state = 'snapping';
-      console.log('close!')
-      ctx.save();
-      ctx.scale(GU, GU);
-      ctx.translate(CENTER.x, CENTER.y);
-      ctx.fillStyle = 'pink';
-      ctx.fillRect(shortestDistanceBrick.x, shortestDistanceBrick.y, 0.05, 0.05)
-
-      ctx.restore();
     }
   }
 };

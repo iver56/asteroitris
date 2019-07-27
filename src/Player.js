@@ -73,6 +73,11 @@ Player.prototype.render = function() {
     ctx.restore();
   }
 
+  // Draw a circle that shows the bounds that end the game
+  ctx.beginPath();
+  ctx.arc(this.x, this.y, 4, 0, 2 * Math.PI);
+  ctx.stroke();
+
   ctx.restore();
 };
 
