@@ -43,7 +43,9 @@ GameState.prototype.update = function() {
     if (!this.hasGameOverBeenAnnounced) {
       let score = Math.max(0, this.player.brickPositions.length - 16);
       this.playSound('game_over.ogg');
-      alert(`Game over! Score: ${score}`);
+      setTimeout(function() {
+        alert(`Game over! Score: ${score}`);
+      }, 1500);
       this.hasGameOverBeenAnnounced = true;
     }
     return;
