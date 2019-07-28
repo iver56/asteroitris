@@ -14,7 +14,7 @@ function MusicManager() {
     that.loaded = true;
     this.play()
   });
-  this.music.volume = 0.4;
+  this.music.volume = 0.95;
   this.music.src = "res/music.ogg";
   this.state = "menu";
   this.musictimes = {

@@ -1,6 +1,7 @@
 var sounds = {
   byName: {
     'fx1.ogg': '0',
+    'game_over.ogg': '1',
   },
   byId: {}
 };
