@@ -75,16 +75,19 @@ GameState.prototype.snapBricks = function() {
       let shortestDistanceBrick = {x: 0, y: 0};
       let shortestDistanceBrickIndex = null;
       let shortestDistancePlayerBrick = {x: 0, y: 0};
+      let shortestDistancePlayerBrickIndex = null;
       const brickBricks = brick.absoluteBrickCenterPositions;
       for (let i = 0; i < brickBricks.length; i++) {
         let brickBrick = brickBricks[i];
-        for (let playerBrick of playerBricks) {
+        for (let j = 0; j < playerBricks.length; j++) {
+          let playerBrick = playerBricks[j];
           let distance = calculateEuclideanDistance(brickBrick, playerBrick);
           if (distance < shortestDistance) {
             shortestDistance = distance;
             shortestDistanceBrick = brickBrick;
             shortestDistanceBrickIndex = i;
             shortestDistancePlayerBrick = playerBrick;
+            shortestDistancePlayerBrickIndex = j;
           }
         }
       }
@@ -120,6 +123,7 @@ GameState.prototype.snapBricks = function() {
         // Snap position
         let minDistance = 99999;
         let bestPosition = {x: 0, y: 0};
+        let bestRelativeAngle = null;
         for (let i = 0; i < 4; i++) {
           let angle = this.player.rotation + i * Math.PI / 2;
           let candidatePosition = {
@@ -130,13 +134,35 @@ GameState.prototype.snapBricks = function() {
           if (distance < minDistance) {
             minDistance = distance;
             bestPosition = candidatePosition;
+            bestRelativeAngle = i * Math.PI / 2;
           }
         }
+
+        const cosFactor = Math.cos(bestRelativeAngle);
+        const sinFactor = Math.sin(bestRelativeAngle);
+        let targetRelativeBrickPosition = {
+          x: this.player.brickPositions[shortestDistancePlayerBrickIndex].x + Math.round(cosFactor) | 0,
+          y: this.player.brickPositions[shortestDistancePlayerBrickIndex].y + Math.round(sinFactor) | 0,
+        };
 
         let dx = bestPosition.x - updatedShortestDistanceBrick.x;
         let dy = bestPosition.y - updatedShortestDistanceBrick.y;
         brick.x += dx;
         brick.y += dy;
+
+        let relativeBrickRotation = (brick.rotation - this.player.rotation).mod(Math.PI * 2);
+        let rotatedBrickPositions = rotateBrick(brick.brickPositions, relativeBrickRotation);
+        let brickBrickOffset = rotatedBrickPositions[shortestDistanceBrickIndex];
+
+        // apply offset
+        for (let rotatedBrickPosition of rotatedBrickPositions) {
+          this.player.brickPositions.push(
+            {
+              x: targetRelativeBrickPosition.x + rotatedBrickPosition.x - brickBrickOffset.x,
+              y: targetRelativeBrickPosition.y + rotatedBrickPosition.y - brickBrickOffset.y
+            }
+          )
+        }
       }
     }
     if (brick.state === 'snapping') {

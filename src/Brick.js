@@ -8,6 +8,22 @@ const bricks = [
   [{x: 0, y: 0}, {x: 0, y: 1}, {x: 1, y: 1}, {x: 1, y: 2}],
 ];
 
+function rotateBrick(brickPositions, angle) {
+  const cosFactor = Math.cos(angle);
+  const sinFactor = Math.sin(angle);
+
+  let rotatedBrickPositions = [];
+
+  for (let brickPosition of brickPositions) {
+    const position = {
+      x: Math.round(brickPosition.x * cosFactor - brickPosition.y * sinFactor) | 0,
+      y: Math.round(brickPosition.x * sinFactor + brickPosition.y * cosFactor) | 0,
+    };
+    rotatedBrickPositions.push(position);
+  }
+  return rotatedBrickPositions;
+}
+
 
 function Brick(gameState, brickPositions, x, y, dx, dy, rotation) {
   this.gameState = gameState;
