@@ -158,6 +158,9 @@ GameState.prototype.snapBricks = function() {
             }
           )
         }
+
+        // Play sound effect
+        this.playSound('fx1.ogg')
       }
     }
   }
