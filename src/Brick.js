@@ -19,7 +19,7 @@ function Brick(gameState, brickPositions, x, y, dx, dy, rotation) {
   this.speedFactor = 0.02;
   this.rotation = rotation;  // in radians
   this.state = 'floating';  // or 'snapping'
-  this.targetPositionOfPlayer = null;
+  this.endOfSnapState = null;
   this.absoluteBrickCenterPositions = [];
 }
 
