@@ -164,7 +164,7 @@ GameState.prototype.snapBricks = function() {
 
   // Remove bricks that have snapped into place
   for (let brickIndexToRemove of brickIndexesToRemove) {
-    this.bricks.remove(brickIndexesToRemove);
+    this.bricks.remove(brickIndexToRemove);
   }
 };
 
