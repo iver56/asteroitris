@@ -1,3 +1,5 @@
+GAME_OVER_RADIUS = 10;
+
 function Player(gameState) {
   this.gameState = gameState;
   this.x = 0;  // in game units
@@ -78,7 +80,7 @@ Player.prototype.render = function() {
   // Draw a circle that shows the bounds that end the game
   ctx.strokeStyle = '#FF56B0';
   ctx.beginPath();
-  ctx.arc(this.x, this.y, 11 * BRICK_SIZE, 0, 2 * Math.PI);
+  ctx.arc(this.x, this.y, GAME_OVER_RADIUS * BRICK_SIZE, 0, 2 * Math.PI);
   ctx.stroke();
 
   ctx.restore();
@@ -91,7 +93,7 @@ Player.prototype.checkGameOverCondition = function() {
   }
   this.gameState.isGameOver = false;
   for (let brickPosition of this.brickPositions) {
-    if (calculateEuclideanDistance(this.relativeCenterOfMass, brickPosition) > 11) {
+    if (calculateEuclideanDistance(this.relativeCenterOfMass, brickPosition) > GAME_OVER_RADIUS) {
       this.gameState.isGameOver = true;
       let score = this.brickPositions.length - 16;
 
