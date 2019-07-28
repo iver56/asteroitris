@@ -43,6 +43,8 @@ Player.prototype.update = function() {
   }
   this.rotation = this.rotation.mod(Math.PI * 2);
   this.absoluteBrickCenterPositions = this.getBrickCenterPositions();
+
+  this.checkGameOverCondition();
 };
 
 Player.prototype.render = function() {
@@ -76,10 +78,29 @@ Player.prototype.render = function() {
   // Draw a circle that shows the bounds that end the game
   ctx.strokeStyle = '#FF56B0';
   ctx.beginPath();
-  ctx.arc(this.x, this.y, 4, 0, 2 * Math.PI);
+  ctx.arc(this.x, this.y, 11 * BRICK_SIZE, 0, 2 * Math.PI);
   ctx.stroke();
 
   ctx.restore();
+};
+
+Player.prototype.checkGameOverCondition = function() {
+  if (this.gameState.isGameOver) {
+    // Game is deemed over already. No need to check.
+    return;
+  }
+  this.gameState.isGameOver = false;
+  for (let brickPosition of this.brickPositions) {
+    if (calculateEuclideanDistance(this.relativeCenterOfMass, brickPosition) > 11) {
+      this.gameState.isGameOver = true;
+      let score = this.brickPositions.length - 16;
+      // TODO: Play sound
+      setTimeout(function() {
+        alert(`Game over! Score: ${score}`)
+      }, 200);
+      break;
+    }
+  }
 };
 
 Player.prototype.getBrickCenterPositions = function() {

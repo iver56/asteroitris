@@ -25,6 +25,7 @@ GameState.prototype.resume = function() {
   this.bricks = [];
   this.initialT = +(new Date()) / 1000;
   this.timeOfNewBrickSpawn = this.initialT;
+  this.isGameOver = false;
 };
 
 GameState.prototype.render = function(ctx) {
@@ -34,8 +35,6 @@ GameState.prototype.render = function(ctx) {
   }
 
   mm.audioButton.render();
-
-  this.snapBricks(); // TODO: Move to update!
 };
 
 GameState.prototype.update = function() {
@@ -43,7 +42,7 @@ GameState.prototype.update = function() {
 
   this.spawnBricks();
 
-  // this.snapBricks();
+  this.snapBricks();
 
   this.player.update();
   for (let brick of this.bricks) {
