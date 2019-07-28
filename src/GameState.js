@@ -111,7 +111,7 @@ GameState.prototype.snapBricks = function() {
         }
       }
 
-      if (shortestDistance <= 1.44 * BRICK_SIZE) {
+      if (shortestDistance <= 1.25 * BRICK_SIZE) {
         brickIndexesToRemove[brickIndex] = true;
         brick.state = 'snapping';
 

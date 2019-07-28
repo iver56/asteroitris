@@ -1,3 +1,5 @@
+MUSIC_VOLUME = 0.55;
+
 function MusicManager() {
   this.audioButton = new AudioButton();
   this.music = new Audio();
@@ -7,14 +9,12 @@ function MusicManager() {
   this.music.addEventListener("loadeddata", function() {
     that.loaded || loaded--;
     that.loaded = true;
-    this.play()
   });
   this.music.addEventListener("canplay", function() {
     that.loaded || loaded--;
     that.loaded = true;
-    this.play()
   });
-  this.music.volume = 0.95;
+  this.music.volume = MUSIC_VOLUME;
   this.music.src = "res/music.ogg";
   this.state = "menu";
   this.musictimes = {
@@ -30,6 +30,9 @@ function MusicManager() {
 
 MusicManager.prototype.changeState = function(state) {
   this.state = state;
+  if (state === 'game') {
+    this.music.play();
+  }
 };
 
 MusicManager.prototype.update = function() {

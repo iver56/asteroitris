@@ -12,7 +12,7 @@ function AudioButton() {
   this.on = !!localStorage.soundActivated;
   setTimeout(function() {
     createjs.Sound.setMute(!that.on);
-    mm.music.volume = !!that.on * 0.4;
+    mm.music.volume = !!that.on * MUSIC_VOLUME;
   }, 10);
 }
 

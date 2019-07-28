@@ -43,7 +43,7 @@ function Brick(gameState, brickPositions, x, y, dx, dy, rotation, isBomb) {
 
 Brick.prototype.update = function() {
   if (this.state === 'floating') {
-    this.speedFactor *= 0.996;
+    this.speedFactor *= 0.9965;
     this.x += this.dx * this.speedFactor;
     this.y += this.dy * this.speedFactor;
   }
