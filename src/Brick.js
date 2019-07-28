@@ -32,7 +32,7 @@ function Brick(gameState, brickPositions, x, y, dx, dy, rotation) {
   this.y = y;  // in game units
   this.dx = dx;
   this.dy = dy;
-  this.speedFactor = 0.02;
+  this.speedFactor = 0.018;
   this.rotation = rotation;  // in radians
   this.state = 'floating';  // or 'snapping'
   this.endOfSnapState = null;
