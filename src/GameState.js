@@ -56,7 +56,7 @@ GameState.prototype.spawnBricks = function() {
     let brick = spawnBrick(this);
     this.bricks.push(brick);
 
-    this.timeOfNewBrickSpawn = this.t + 3.5;
+    this.timeOfNewBrickSpawn = this.t + 4;
   }
 };
 
@@ -69,7 +69,10 @@ GameState.prototype.snapBricks = function() {
     this.player.rotation + 1.5 * Math.PI
   ];
 
-  for (let brick of this.bricks) {
+  let brickIndexesToRemove = [];
+
+  for (let brickIndex = 0; brickIndex < this.bricks.length; brickIndex++) {
+    let brick = this.bricks[brickIndex];
     if (brick.state === 'floating') {
       let shortestDistance = 999999;
       let shortestDistanceBrick = {x: 0, y: 0};
@@ -92,18 +95,10 @@ GameState.prototype.snapBricks = function() {
         }
       }
 
-      if (shortestDistance <= 1.25 * BRICK_SIZE) {
+      if (shortestDistance <= 1.44 * BRICK_SIZE) {
+        brickIndexesToRemove.push(brickIndex);
         brick.state = 'snapping';
         brick.endOfSnapState = this.t + 0.5;
-        // Temporary code for debugging
-        console.log('close!');
-        ctx.save();
-        ctx.scale(GU, GU);
-        ctx.translate(CENTER.x, CENTER.y);
-        ctx.fillStyle = 'pink';
-        ctx.fillRect(shortestDistanceBrick.x, shortestDistanceBrick.y, 0.05, 0.05);
-        ctx.restore();
-        // End of temporary code
 
         // Snap angle
         let minAngleDifference = 99999;
@@ -165,9 +160,11 @@ GameState.prototype.snapBricks = function() {
         }
       }
     }
-    if (brick.state === 'snapping') {
+  }
 
-    }
+  // Remove bricks that have snapped into place
+  for (let brickIndexToRemove of brickIndexesToRemove) {
+    this.bricks.remove(brickIndexesToRemove);
   }
 };
 
