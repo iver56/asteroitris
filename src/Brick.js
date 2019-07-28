@@ -34,7 +34,7 @@ function Brick(gameState, brickPositions, x, y, dx, dy, rotation, isBomb) {
   this.y = y;  // in game units
   this.dx = dx;
   this.dy = dy;
-  this.speedFactor = 0.018;
+  this.speedFactor = 0.035;
   this.rotation = rotation;  // in radians
   this.state = 'floating';  // or 'snapping'
   this.absoluteBrickCenterPositions = [];
@@ -43,10 +43,9 @@ function Brick(gameState, brickPositions, x, y, dx, dy, rotation, isBomb) {
 
 Brick.prototype.update = function() {
   if (this.state === 'floating') {
+    this.speedFactor *= 0.996;
     this.x += this.dx * this.speedFactor;
     this.y += this.dy * this.speedFactor;
-  } else if (this.state === 'snapping') {
-
   }
   this.absoluteBrickCenterPositions = this.getBrickCenterPositions();
 };
@@ -104,7 +103,7 @@ Brick.prototype.getBrickCenterPositions = function() {
 };
 
 function spawnBrick(gameState) {
-  const isBomb = Math.random() < 0.25;
+  const isBomb = Math.random() < 0.27;
   const brickIndex = (Math.random() * bricks.length) | 0;
   const brick = isBomb ? bombBrick : bricks[brickIndex];
   const angle = Math.random() * Math.PI * 2;
