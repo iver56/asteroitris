@@ -38,6 +38,9 @@ GameState.prototype.render = function(ctx) {
 };
 
 GameState.prototype.update = function() {
+  if (this.isGameOver) {
+    return;
+  }
   this.t = +(new Date()) / 1000;
 
   this.spawnBricks();
