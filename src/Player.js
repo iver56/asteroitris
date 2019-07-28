@@ -1,4 +1,4 @@
-GAME_OVER_RADIUS = 10;
+GAME_OVER_RADIUS = 8;
 
 function Player(gameState) {
   this.gameState = gameState;
