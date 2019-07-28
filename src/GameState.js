@@ -26,6 +26,7 @@ GameState.prototype.resume = function() {
   this.initialT = +(new Date()) / 1000;
   this.timeOfNewBrickSpawn = this.initialT;
   this.isGameOver = false;
+  this.hasGameOverBeenAnnounced = false;
 };
 
 GameState.prototype.render = function(ctx) {
@@ -39,6 +40,12 @@ GameState.prototype.render = function(ctx) {
 
 GameState.prototype.update = function() {
   if (this.isGameOver) {
+    if (!this.hasGameOverBeenAnnounced) {
+      let score = Math.max(0, this.player.brickPositions.length - 16);
+      this.playSound('game_over.ogg');
+      alert(`Game over! Score: ${score}`);
+      this.hasGameOverBeenAnnounced = true;
+    }
     return;
   }
   this.t = +(new Date()) / 1000;
@@ -183,6 +190,10 @@ GameState.prototype.snapBricks = function() {
             }
           }
           this.player.brickPositions = newPlayerBricks;
+          if (this.player.brickPositions.length === 0) {
+            // Lost all player bricks
+            this.isGameOver = true;
+          }
         }
       }
     }

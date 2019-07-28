@@ -95,13 +95,6 @@ Player.prototype.checkGameOverCondition = function() {
   for (let brickPosition of this.brickPositions) {
     if (calculateEuclideanDistance(this.relativeCenterOfMass, brickPosition) > GAME_OVER_RADIUS) {
       this.gameState.isGameOver = true;
-      let score = this.brickPositions.length - 16;
-
-      this.gameState.playSound('game_over.ogg');
-
-      setTimeout(function() {
-        alert(`Game over! Score: ${score}`)
-      }, 200);
       break;
     }
   }
