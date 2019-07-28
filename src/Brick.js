@@ -27,6 +27,7 @@ function rotateBrick(brickPositions, angle) {
 
 
 function Brick(gameState, brickPositions, x, y, dx, dy, rotation, isBomb) {
+  this.timeBorn = gameState.t;
   this.gameState = gameState;
   this.brickPositions = brickPositions;
   this.x = x;  // in game units

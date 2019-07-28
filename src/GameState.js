@@ -78,10 +78,17 @@ GameState.prototype.snapBricks = function() {
     this.player.rotation + 1.5 * Math.PI
   ];
 
-  let brickIndexesToRemove = [];
+  let brickIndexesToRemove = {};
 
   for (let brickIndex = 0; brickIndex < this.bricks.length; brickIndex++) {
     let brick = this.bricks[brickIndex];
+
+    if (brick.timeBorn < this.t - 25) {
+      // Remove old bricks that have moved out of screen
+      brickIndexesToRemove[brickIndex] = true;
+      continue;
+    }
+
     if (brick.state === 'floating') {
       let shortestDistance = 999999;
       let shortestDistanceBrick = {x: 0, y: 0};
@@ -105,7 +112,7 @@ GameState.prototype.snapBricks = function() {
       }
 
       if (shortestDistance <= 1.44 * BRICK_SIZE) {
-        brickIndexesToRemove.push(brickIndex);
+        brickIndexesToRemove[brickIndex] = true;
         brick.state = 'snapping';
 
         // Snap angle
@@ -199,11 +206,14 @@ GameState.prototype.snapBricks = function() {
     }
   }
 
-  // Remove bricks that have snapped into place
-  // TODO: Fix bug in case multiple bricks must be removed
-  for (let brickIndexToRemove of brickIndexesToRemove) {
-    this.bricks.remove(brickIndexToRemove);
+  // Remove bricks that have snapped into place, exploded or are too old
+  let newBricks = [];
+  for (let k = 0; k < this.bricks.length; k++) {
+    if (!brickIndexesToRemove[k]) {
+      newBricks.push(this.bricks[k]);
+    }
   }
+  this.bricks = newBricks;
 };
 
 GameState.prototype.playSound = function(soundName) {
