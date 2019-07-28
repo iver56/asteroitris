@@ -74,6 +74,7 @@ Player.prototype.render = function() {
   }
 
   // Draw a circle that shows the bounds that end the game
+  ctx.strokeStyle = '#FF56B0';
   ctx.beginPath();
   ctx.arc(this.x, this.y, 4, 0, 2 * Math.PI);
   ctx.stroke();
