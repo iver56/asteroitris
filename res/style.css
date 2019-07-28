@@ -14,11 +14,6 @@ html, body {
     background: #191919;
     -webkit-touch-callout: none;
     -ms-touch-action: none;
-    font-family: 'blackoutmidnight';
-}
-
-button {
-    font-family: 'blackoutmidnight';
 }
 
 #wrapper {
@@ -26,57 +21,11 @@ button {
 }
 
 @font-face {
-    font-family: 'blackoutmidnight';
-    src: url('fonts/blackout-nor-webfont.eot');
-    src: url('fonts/blackout-nor-webfont.eot') format('embedded-opentype'), url('fonts/blackout-nor-webfont.woff') format('woff'), url('fonts/blackout-nor-webfont.ttf') format('truetype'), url('fonts/blackout-nor-webfont.svg') format('svg');
     font-weight: normal;
     font-style: normal;
-}
-
-#overlay {
-    z-index: 1000;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-}
-
-.player-name-container {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-}
-
-.chat-input {
-    position: absolute;
-    left:5%;
-    top:70%;
-    color:white;
-    width:40%;
-    background:none;
-}
-
-.chat-window {
-    position: fixed;
-    bottom: 30%;
-    left:5%;
-    height: 30%;
-    z-index:1001;
-}
-
-.chat-msg {
-    bottom: 0px;
-    color:white;
-    font-size: 14;
 }
 
 .hidden {
     -webkit-transition: opacity 1s linear;
     opacity: 0;
-}
-
-input {
-    cursor: text;
 }

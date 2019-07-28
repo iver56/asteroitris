@@ -44,7 +44,6 @@ MenuState.prototype.select = function(selected) {
 MenuState.prototype.pause = function() {
   document.removeEventListener('keypress', this.fullscreenHandler);
   $("#wrapper > .logo").remove();
-  $('.player-name-container').hide();
 };
 
 MenuState.prototype.resume = function() {
