@@ -7,6 +7,7 @@ const bricks = [
   [{x: 1, y: 0}, {x: 1, y: 1}, {x: 0, y: 1}, {x: 0, y: 2}],
   [{x: 0, y: 0}, {x: 0, y: 1}, {x: 1, y: 1}, {x: 1, y: 2}],
 ];
+const bombBrick = [{x: 0, y: 0}];
 
 function rotateBrick(brickPositions, angle) {
   const cosFactor = Math.cos(angle);
@@ -25,7 +26,7 @@ function rotateBrick(brickPositions, angle) {
 }
 
 
-function Brick(gameState, brickPositions, x, y, dx, dy, rotation) {
+function Brick(gameState, brickPositions, x, y, dx, dy, rotation, isBomb) {
   this.gameState = gameState;
   this.brickPositions = brickPositions;
   this.x = x;  // in game units
@@ -35,8 +36,8 @@ function Brick(gameState, brickPositions, x, y, dx, dy, rotation) {
   this.speedFactor = 0.018;
   this.rotation = rotation;  // in radians
   this.state = 'floating';  // or 'snapping'
-  this.endOfSnapState = null;
   this.absoluteBrickCenterPositions = [];
+  this.isBomb = isBomb;
 }
 
 Brick.prototype.update = function() {
@@ -54,7 +55,13 @@ Brick.prototype.render = function() {
   ctx.scale(GU, GU);
   ctx.translate(CENTER.x, CENTER.y);
 
-  ctx.fillStyle = '#9BC4EF';
+  if (this.isBomb) {
+    const red = 255;
+    const greenAndBlue = 0 | (127 + 120 * Math.sin(this.gameState.t * 5));
+    ctx.fillStyle = `rgb(${red},${greenAndBlue},${greenAndBlue})`;
+  } else {
+    ctx.fillStyle = '#9BC4EF';
+  }
   ctx.strokeStyle = '#7A7A7A';
   ctx.lineWidth = 0.03;
 
@@ -96,8 +103,9 @@ Brick.prototype.getBrickCenterPositions = function() {
 };
 
 function spawnBrick(gameState) {
+  const isBomb = Math.random() < 0.5;
   const brickIndex = (Math.random() * bricks.length) | 0;
-  const brick = bricks[brickIndex];
+  const brick = isBomb ? bombBrick : bricks[brickIndex];
   const angle = Math.random() * Math.PI * 2;
   const reverseAngle = angle + Math.PI;
   const dx = Math.cos(reverseAngle);
@@ -106,5 +114,5 @@ function spawnBrick(gameState) {
   const y = (8 + BRICK_SIZE) * Math.sin(angle);
   const rotationIndex = (Math.random() * 4) | 0;
   const rotation = (angle + rotationIndex * Math.PI / 2) % (Math.PI * 2);
-  return new Brick(gameState, brick, x, y, dx, dy, rotation);
+  return new Brick(gameState, brick, x, y, dx, dy, rotation, isBomb);
 }

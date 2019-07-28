@@ -100,7 +100,6 @@ GameState.prototype.snapBricks = function() {
       if (shortestDistance <= 1.44 * BRICK_SIZE) {
         brickIndexesToRemove.push(brickIndex);
         brick.state = 'snapping';
-        brick.endOfSnapState = this.t + 0.5;
 
         // Snap angle
         let minAngleDifference = 99999;
@@ -162,7 +161,11 @@ GameState.prototype.snapBricks = function() {
         }
 
         // Play sound effect
-        this.playSound('fx1.ogg')
+        if (brick.isBomb) {
+          this.playSound('fx6.ogg');
+        } else {
+          this.playSound('fx1.ogg');
+        }
       }
     }
   }
