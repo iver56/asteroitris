@@ -103,7 +103,7 @@ Brick.prototype.getBrickCenterPositions = function() {
 };
 
 function spawnBrick(gameState) {
-  const isBomb = Math.random() < 0.5;
+  const isBomb = Math.random() < 0.2;
   const brickIndex = (Math.random() * bricks.length) | 0;
   const brick = isBomb ? bombBrick : bricks[brickIndex];
   const angle = Math.random() * Math.PI * 2;

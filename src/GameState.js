@@ -166,11 +166,30 @@ GameState.prototype.snapBricks = function() {
         } else {
           this.playSound('fx1.ogg');
         }
+
+        // Explode away some bricks
+        if (brick.isBomb) {
+          let playerBrickIndexesToRemove = {};
+          for (let k = 0; k < this.player.brickPositions.length; k++) {
+            let brickPos = this.player.brickPositions[k];
+            if (calculateEuclideanDistance(targetRelativeBrickPosition, brickPos) <= 2) {
+              playerBrickIndexesToRemove[k] = true;
+            }
+          }
+          let newPlayerBricks = [];
+          for (let k = 0; k < this.player.brickPositions.length; k++) {
+            if (!playerBrickIndexesToRemove[k]) {
+              newPlayerBricks.push(this.player.brickPositions[k]);
+            }
+          }
+          this.player.brickPositions = newPlayerBricks;
+        }
       }
     }
   }
 
   // Remove bricks that have snapped into place
+  // TODO: Fix bug in case multiple bricks must be removed
   for (let brickIndexToRemove of brickIndexesToRemove) {
     this.bricks.remove(brickIndexToRemove);
   }
