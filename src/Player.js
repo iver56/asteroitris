@@ -4,7 +4,7 @@ function Player(gameState) {
   this.y = 0;  // in game units
   this.rotation = 0;  // in radians
   this.rotationSpeed = 0.035;  // in radians per frame
-  this.movementSpeed = 0.02;  // in game units per frame
+  this.movementSpeed = 0.022;  // in game units per frame
   this.brickPositions = [
     {x: 0, y: 0}, {x: 0, y: 1}, {x: 0, y: 2}, {x: 0, y: 3},
     {x: 1, y: 0}, {x: 1, y: 1}, {x: 1, y: 2}, {x: 1, y: 3},

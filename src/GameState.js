@@ -56,7 +56,7 @@ GameState.prototype.spawnBricks = function() {
     let brick = spawnBrick(this);
     this.bricks.push(brick);
 
-    this.timeOfNewBrickSpawn = this.t + 4;
+    this.timeOfNewBrickSpawn = this.t + 4.5;
   }
 };
 
