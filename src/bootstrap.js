@@ -24,14 +24,6 @@ function smoothstep(a, b, t) {
   return b * v + a * (1 - v);
 }
 
-function lerp(a, b, t){
-      return (a * t) + (b * (1 - t));
-}
-
-function clamp(low, x, high) {
-  return Math.max(low, Math.min(x, high));
-}
-
 function loadImage(path) {
   var img = new Image();
   loaded++;
@@ -104,7 +96,6 @@ function bootstrap() {
   canvas = document.createElement("canvas");
   ctx = canvas.getContext("2d");
   canvas.style.zIndex = 999;
-  game_data = readData();
 
   sm = new StateManager();
   mm = new MusicManager();
@@ -221,40 +212,6 @@ function resize(e) {
   }
 }
 
-function saveData(data) {
-  json_data = JSON.stringify(data);
-  setCookie("game_data", json_data, 10 ^ 5);
-}
-
-function readData() {
-  json_data = getCookie("game_data");
-  if (typeof json_data !== "undefined") {
-    return JSON.parse(json_data);
-  } else {
-    /* default game_data object */
-    return {progress: [0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]};
-  }
-}
-
-function setCookie(c_name, value, exdays) {
-  var exdate = new Date();
-  exdate.setDate(exdate.getDate() + exdays);
-  var c_value = encodeURIComponent(value) + ((exdays == null) ? "" : "; expires=" + exdate.toUTCString());
-  document.cookie = c_name + "=" + c_value;
-}
-
-function getCookie(c_name) {
-  var i, x, y, ARRcookies = document.cookie.split(";");
-  for (i = 0; i < ARRcookies.length; i++) {
-    x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="));
-    y = ARRcookies[i].substr(ARRcookies[i].indexOf("=") + 1);
-    x = x.replace(/^\s+|\s+$/g, "");
-    if (x == c_name) {
-      return decodeURIComponent(y);
-    }
-  }
-}
-
 function relMouseCoords(e) {
   if (e.type !== "touchstart") {
     e.preventDefault();
@@ -334,25 +291,9 @@ function handleEvent(e) {
 
 window.addEventListener('resize', resize);
 
-/* global mixin for position/size-objects that do AABB collision with another posititon/size-object */
-function contains(obj) {
-  return obj.position.x < this.position.x + this.size.w &&
-    obj.position.x + obj.size.w > this.position.x &&
-    obj.position.y < this.position.y + this.size.h &&
-    obj.position.y + obj.size.h > this.position.y;
-}
-
 // Array Remove - By John Resig (MIT Licensed)
 Array.prototype.remove = function(from, to) {
   var rest = this.slice((to || from) + 1 || this.length);
   this.length = from < 0 ? this.length + from : from;
   return this.push.apply(this, rest);
 };
-
-function highResolution() {
-  var pixelRatio = 1;
-  if (window.devicePixelRatio) {
-    pixelRatio = window.devicePixelRatio;
-  }
-  return pixelRatio * $(window).width() > 1440 && pixelRatio * $(window).height() > 810;
-}
